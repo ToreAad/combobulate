@@ -1033,9 +1033,29 @@ point relative to the nodes in
     ;; region; if so, swap places.
     (when (and mark-active (> (point) (mark)))
       (exchange-point-and-mark))
+    ;; The node at point counts as a candidate in its own right, exactly
+    ;; as it does in `combobulate-mark-node-dwim' below.  Looking only at
+    ;; its parents loses the case where point has been moved *outside*
+    ;; the node it is nominally in -- which is what happens on the second
+    ;; call from `combobulate-mark-defun', because marking a defun
+    ;; extends the region back to the beginning of the line, and at that
+    ;; column the innermost node is already the enclosing defun.  Its
+    ;; parents are then a level too high, and the enclosing defun -- the
+    ;; very thing the command should grow into -- is skipped.
+    ;;
+    ;; It has to span point to be worth considering, though:
+    ;; `combobulate-node-at-point' falls back to the smallest node at its
+    ;; candidate's *start*, which in the gap between two definitions is
+    ;; the one before point rather than the one around it.  A candidate
+    ;; like that is disjoint from the region, so it would sail through
+    ;; the test below and mark a definition point is nowhere near.
     (when-let ((parent (car (seq-drop-while
                              #'combobulate-node-in-region-p
-                             (combobulate-nav-get-parents (combobulate-node-at-point))))))
+                             (append
+                              (when-let ((nap (combobulate--get-nearest-navigable-node)))
+                                (and (combobulate-point-in-node-range-p nap) (list nap)))
+                              (combobulate-nav-get-parents
+                               (combobulate-node-at-point)))))))
       (combobulate--mark-node parent nil beginning-of-line)
       (combobulate--flash-node parent)
       parent)))

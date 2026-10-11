@@ -53,7 +53,11 @@
 
 (defun combobulate-message (message &rest args)
   "Display MESSAGE and pretty print NODE"
-  (message (concat
+  ;; Note the `%s': the assembled string embeds node text, which may
+  ;; itself contain format specifiers -- a `printfn "%s"' in the buffer
+  ;; would otherwise make `message' fail on its own argument list.
+  (message "%s"
+           (concat
             combobulate-sigil " " message " "
             (mapconcat
              (lambda (a)

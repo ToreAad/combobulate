@@ -113,6 +113,8 @@ Here is a list of the languages currently supported.
 +--------------------+--------------------------------------------------------------+------------------------------+
 |OCaml [2]           |tuareg-mode [3], tuareg-interface-mode [3], neocaml-mode, neocaml-interface-mode   | v0.25.0 |
 +--------------------+--------------------------------------------------------------+------------------------------+
+|F# [4]              |fsharp-mode, fsharp-ts-mode                                   |0.3.11                        |
++--------------------+--------------------------------------------------------------+------------------------------+
 
 
 *Don't see your language? If you want your favourite language added, then why not try it yourself? Have a look at ``combobulate-json.el`` for an example.*
@@ -132,6 +134,8 @@ Furthermore, Combobulate ships with a Magit-like transient UI that you can acces
  [2] OCaml support written by `Pixie Dust <https://github.com/PizieDust>`__, `Tim McGilchrist <https://github.com/tmcgilchrist>`__ & `Xavier Van de Woestyne <https://github.com/xvw>`__.
 
  [3] To use combobulate with tuareg, you need to use the release version as from [3.1.0](https://github.com/ocaml/tuareg/releases/tag/3.1.0) which has support for `tuareg-mode` and `tuareg-interface-mode`.
+
+ [4] F# support covers implementation files (``.fs``, ``.fsx``). Signature files (``.fsi``) use a separate grammar that Combobulate does not yet have rules for.
 
 Recent Changes / What's New
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -233,7 +237,8 @@ Note that this example uses ``major-mode-remap-alist`` to turn your regular majo
                    (typescript . ("https://github.com/tree-sitter/tree-sitter-typescript" "v0.20.3" "typescript/src"))
                    (yaml . ("https://github.com/ikatyang/tree-sitter-yaml" "v0.5.0"))
                    (ocaml . ("https://github.com/tree-sitter/tree-sitter-ocaml" "v0.25.0" "grammars/ocaml/src"))
-                   (ocaml-interface . ("https://github.com/tree-sitter/tree-sitter-ocaml" "v0.25.0" "grammars/interface/src"))))
+                   (ocaml-interface . ("https://github.com/tree-sitter/tree-sitter-ocaml" "v0.25.0" "grammars/interface/src"))
+                   (fsharp . ("https://github.com/ionide/tree-sitter-fsharp" "0.3.11" "fsharp/src"))))
           (add-to-list 'treesit-language-source-alist grammar)
           ;; Only install `grammar' if we don't already have it
           ;; installed. However, if you want to *update* a grammar then
